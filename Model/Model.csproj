@@ -46,6 +46,7 @@
     <Compile Include="ArtificialIntelligence\Minimax.cs" />
     <Compile Include="ArtificialIntelligence\MinimaxWithAlphaBetaPruning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reversi\Player.cs" />
     <Compile Include="Reversi\ReversiBoard.cs" />
   </ItemGroup>
   <ItemGroup>
