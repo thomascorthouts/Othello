@@ -174,5 +174,15 @@ namespace Model.Reversi
                 return false;
             }
         }
+
+        public bool HasValidMoves(Player player)
+        {
+            return this.Positions.Any(p => IsValidMove(p, player));
+        }
+
+        public int CountStones(Player player)
+        {
+            return this.Positions.Count(p => this[p] == player);
+        }
     }
 }
