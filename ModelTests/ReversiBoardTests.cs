@@ -37,10 +37,10 @@ namespace ReversiModelTests
                         return null;
 
                     case 'w':
-                        return Player.ONE;
+                        return Player.WHITE;
 
                     case 'b':
-                        return Player.TWO;
+                        return Player.BLACK;
 
                     default:
                         throw new ArgumentException($"Invalid character {c}");
@@ -68,10 +68,10 @@ namespace ReversiModelTests
                 switch (grid[position])
                 {
                     case 'W':
-                        return Tuple.Create(position, Player.ONE);
+                        return Tuple.Create(position, Player.WHITE);
 
                     case 'B':
-                        return Tuple.Create(position, Player.TWO);
+                        return Tuple.Create(position, Player.BLACK);
 
                     default:
                         throw new Exception("Test bug: invalid character in string");
@@ -101,8 +101,8 @@ namespace ReversiModelTests
         {
             var grid = ParseGrid(str);
             var board = ParseReversiBoard(grid.Map(c => c == '*' ? '.' : c));
-            var validPositions = grid.Positions().Where(p => board.IsValidMove(p, player));
-            var invalidPositions = grid.Positions().Where(p => !board.IsValidMove(p, player));
+            var validPositions = grid.Positions().Where(p => grid[p] == '*');
+            var invalidPositions = grid.Positions().Where(p => grid[p] != '*');
 
             foreach ( var validPosition in validPositions )
             {
@@ -274,7 +274,7 @@ namespace ReversiModelTests
             *wb
             ";
 
-            CheckIsValidMove(grid, Player.TWO);
+            CheckIsValidMove(grid, Player.BLACK);
         }
 
         [TestMethod]
@@ -284,7 +284,7 @@ namespace ReversiModelTests
             *bw
             ";
 
-            CheckIsValidMove(grid, Player.ONE);
+            CheckIsValidMove(grid, Player.WHITE);
         }
 
         [TestMethod]
@@ -298,7 +298,55 @@ namespace ReversiModelTests
             .*...
             ";
 
-            CheckIsValidMove(grid, Player.ONE);
+            CheckIsValidMove(grid, Player.BLACK);
+        }
+
+        [TestMethod]
+        public void IsValidMove4()
+        {
+            var grid = @"
+            .wb
+            ";
+
+            CheckIsValidMove(grid, Player.WHITE);
+        }
+
+        [TestMethod]
+        public void InitialState2x2()
+        {
+            var board = ReversiBoard.CreateInitialState(2, 2);
+
+            Assert.AreSame(Player.WHITE, board[new Vector2D(0, 0)]);
+            Assert.AreSame(Player.WHITE, board[new Vector2D(1, 1)]);
+            Assert.AreSame(Player.BLACK, board[new Vector2D(0, 1)]);
+            Assert.AreSame(Player.BLACK, board[new Vector2D(1, 0)]);
+        }
+
+        [TestMethod]
+        public void InitialState4x4()
+        {
+            var board = ReversiBoard.CreateInitialState(4, 4);
+
+            Assert.AreSame(Player.WHITE, board[new Vector2D(1, 1)]);
+            Assert.AreSame(Player.WHITE, board[new Vector2D(2, 2)]);
+            Assert.AreSame(Player.BLACK, board[new Vector2D(1, 2)]);
+            Assert.AreSame(Player.BLACK, board[new Vector2D(2, 1)]);
+
+            Assert.IsNull(board[new Vector2D(0, 0)]);
+            Assert.IsNull(board[new Vector2D(1, 0)]);
+            Assert.IsNull(board[new Vector2D(2, 0)]);
+            Assert.IsNull(board[new Vector2D(3, 0)]);
+
+            Assert.IsNull(board[new Vector2D(0, 3)]);
+            Assert.IsNull(board[new Vector2D(1, 3)]);
+            Assert.IsNull(board[new Vector2D(2, 3)]);
+            Assert.IsNull(board[new Vector2D(3, 3)]);
+
+            Assert.IsNull(board[new Vector2D(0, 1)]);
+            Assert.IsNull(board[new Vector2D(0, 2)]);
+
+            Assert.IsNull(board[new Vector2D(3, 1)]);
+            Assert.IsNull(board[new Vector2D(3, 2)]);
         }
     }
 }

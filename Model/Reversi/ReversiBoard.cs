@@ -14,8 +14,55 @@ namespace Model.Reversi
     {
         private readonly IGrid<Var<Player>> _contents;
 
+        public static ReversiBoard CreateInitialState(int width, int height)
+        {
+            if (width < 2)
+            {
+                throw new ArgumentException($"Width (${width}) should be at least 2");
+            }
+            else if (height < 2)
+            {
+                throw new ArgumentException($"Height (${height}) should be at least 2");
+            }
+            else if (width % 2 != 0)
+            {
+                throw new ArgumentException($"Width (${width}) should be an even number");
+            }
+            else if (height % 2 != 0)
+            {
+                throw new ArgumentException($"Height (${height}) should be an even number");
+            }
+            else
+            {
+                var x = width / 2 - 1;
+                var y = height / 2 - 1;
+                var black = new HashSet<Vector2D>() { new Vector2D(x, y + 1), new Vector2D(x + 1, y) };
+                var white = new HashSet<Vector2D>() { new Vector2D(x, y), new Vector2D(x + 1, y + 1) };
+
+                return new ReversiBoard(width, height, position =>
+                {
+                    if (black.Contains(position))
+                    {
+                        return Player.BLACK;
+                    }
+                    else if (white.Contains(position))
+                    {
+                        return Player.WHITE;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                });
+            }
+        }
+
         public ReversiBoard(int width, int height, Func<Vector2D, Player> initializer)
         {
+            Debug.Assert(width > 0);
+            Debug.Assert(height > 0);
+            Debug.Assert(initializer != null);
+
             this._contents = new Grid<Var<Player>>(width, height, p => new Var<Player>(initializer(p)));
         }
 
@@ -34,11 +81,11 @@ namespace Model.Reversi
 
         public ReversiBoard AddStone(Vector2D position, Player player)
         {
-            if ( player == null )
+            if (player == null)
             {
                 throw new ArgumentNullException(nameof(player));
             }
-            else if ( _contents[position].Value != null )
+            else if (_contents[position].Value != null)
             {
                 throw new InvalidOperationException("Can only add stones on free squares");
             }
@@ -47,18 +94,18 @@ namespace Model.Reversi
                 var copy = MakeCopyOfContents();
                 copy[position].Value = player;
 
-                foreach ( var direction in Vector2D.Directions )
+                foreach (var direction in Vector2D.Directions)
                 {
                     var slice = copy.Slice(position + direction, direction);
                     var maybeIndex = slice.FindFirstIndex(x => x.Value != player.OtherPlayer);
-                    
-                    if ( maybeIndex.HasValue )
+
+                    if (maybeIndex.HasValue)
                     {
                         var index = maybeIndex.Value;
 
-                        if ( slice[index].Value == player )
+                        if (slice[index].Value == player)
                         {
-                            foreach ( var x in slice.Slice(0, index) )
+                            foreach (var x in slice.Slice(0, index))
                             {
                                 x.Value = player;
                             }
@@ -86,11 +133,11 @@ namespace Model.Reversi
 
             var player = x.Value;
 
-            if ( player == Player.ONE )
+            if (player == Player.BLACK)
             {
                 return "1";
             }
-            else if ( player == Player.TWO )
+            else if (player == Player.WHITE)
             {
                 return "2";
             }
@@ -118,7 +165,7 @@ namespace Model.Reversi
                     var slice = this._contents.Slice(position + direction, direction);
                     var maybeIndex = slice.FindFirstIndex(x => x.Value != player.OtherPlayer);
 
-                    if ( maybeIndex.HasValue && slice[maybeIndex.Value].Value == player)
+                    if (maybeIndex.HasValue && maybeIndex.Value > 0 && slice[maybeIndex.Value].Value == player)
                     {
                         return true;
                     }
@@ -126,6 +173,6 @@ namespace Model.Reversi
 
                 return false;
             }
-        }        
+        }
     }
 }

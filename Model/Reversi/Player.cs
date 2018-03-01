@@ -8,20 +8,20 @@ namespace Model.Reversi
 {
     public abstract class Player
     {
-        public static readonly Player ONE = new PlayerOne();
+        public static readonly Player BLACK = new Black();
 
-        public static readonly Player TWO = new PlayerTwo();
+        public static readonly Player WHITE = new White();
 
         public abstract Player OtherPlayer { get; }
 
-        private class PlayerOne : Player
+        private class Black : Player
         {
-            public override Player OtherPlayer => TWO;
+            public override Player OtherPlayer => WHITE;
         }
 
-        private class PlayerTwo : Player
+        private class White : Player
         {
-            public override Player OtherPlayer => ONE;
+            public override Player OtherPlayer => BLACK;
         }
     }
 }
