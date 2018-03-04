@@ -99,9 +99,19 @@ namespace Cells
             return new ConcreteCell<T>( initialValue );
         }
 
+        public static Cell<T> CreateConstant<T>(T value)
+        {
+            return new ConstantCell<T>(value);
+        }
+
         private static void RegisterObserver<T, R>( Derived<R> derived, Cell<T> cell )
         {
             cell.ValueChanged += derived.Refresh;
+        }
+
+        public static Cell<U> Derive<T, U>(this Cell<T> cell, Func<T, U> func)
+        {
+            return Derived(cell, func);
         }
 
         public static Cell<R> Derived<R>( Func<R> function )
