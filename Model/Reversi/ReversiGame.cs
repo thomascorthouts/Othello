@@ -27,11 +27,16 @@ namespace Model.Reversi
 
         public bool IsGameOver => CurrentPlayer == null;
 
+        public bool IsValidMove(Vector2D position)
+        {
+            return !this.IsGameOver && this.Board.IsValidMove(position, CurrentPlayer);
+        }
+
         public ReversiGame PutStone(Vector2D position)
         {
             if ( position == null )
             {
-                throw new ArgumentException($"{nameof(position)} must not be null");
+                throw new ArgumentNullException(nameof(position));
             }
             else if (IsGameOver)
             {
