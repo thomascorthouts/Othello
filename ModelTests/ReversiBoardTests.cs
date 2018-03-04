@@ -93,7 +93,7 @@ namespace ReversiModelTests
 
             foreach (var p in actualBoard.Positions)
             {
-                Assert.AreSame(expectedBoard[p], actualBoard[p]);
+                Assert.AreSame(expectedBoard[p], actualBoard[p], $"At position {p}, expected {expectedBoard[p]}, got {actualBoard[p]}");
             }
         }
 
@@ -119,11 +119,11 @@ namespace ReversiModelTests
         public void PutStone1()
         {
             var initial = @"
-            ..W..
+            .Wbw.
             ";
 
             var expected = @"
-            ..w..
+            .www.
             ";
 
             CheckPutStone(initial, expected);
@@ -133,11 +133,29 @@ namespace ReversiModelTests
         public void PutStone2()
         {
             var initial = @"
-            .B..
+            .Bwb
             ";
 
             var expected = @"
-            .b...
+            .bbb
+            ";
+
+            CheckPutStone(initial, expected);
+        }
+
+        [TestMethod]
+        public void PutStone3()
+        {
+            var initial = @"
+            .bW
+            .bb
+            .bw
+            ";
+
+            var expected = @"
+            .bw
+            .bw
+            .bw
             ";
 
             CheckPutStone(initial, expected);

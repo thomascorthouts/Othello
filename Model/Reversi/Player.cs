@@ -17,11 +17,21 @@ namespace Model.Reversi
         private class Black : Player
         {
             public override Player OtherPlayer => WHITE;
+
+            public override string ToString()
+            {
+                return "B";
+            }
         }
 
         private class White : Player
         {
             public override Player OtherPlayer => BLACK;
+
+            public override string ToString()
+            {
+                return "W";
+            }
         }
     }
 }

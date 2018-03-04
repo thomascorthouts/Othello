@@ -81,22 +81,32 @@ namespace Model.Reversi
 
         public ReversiBoard AddStone(Vector2D position, Player player)
         {
-            if (player == null)
+            if (!IsValidMove(position, player))
             {
-                throw new ArgumentNullException(nameof(player));
-            }
-            else if (_contents[position].Value != null)
-            {
-                throw new InvalidOperationException("Can only add stones on free squares");
+                throw new InvalidOperationException("Invalid move");
             }
             else
             {
                 var copy = MakeCopyOfContents();
                 copy[position].Value = player;
+                var captured = CapturedBy(position, player).ToList();
 
+                foreach ( var p in captured)
+                {
+                    copy[p].Value = player;
+                }
+
+                return new ReversiBoard(copy);
+            }
+        }
+
+        public IEnumerable<Vector2D> CapturedBy(Vector2D position, Player player)
+        {
+            if (IsValidMove(position, player))
+            {
                 foreach (var direction in Vector2D.Directions)
                 {
-                    var slice = copy.Slice(position + direction, direction);
+                    var slice = this._contents.Slice(position + direction, direction);
                     var maybeIndex = slice.FindFirstIndex(x => x.Value != player.OtherPlayer);
 
                     if (maybeIndex.HasValue)
@@ -105,15 +115,17 @@ namespace Model.Reversi
 
                         if (slice[index].Value == player)
                         {
-                            foreach (var x in slice.Slice(0, index))
+                            for (var i = 1; i <= index; ++i)
                             {
-                                x.Value = player;
+                                yield return position + i * direction;
                             }
                         }
                     }
                 }
-
-                return new ReversiBoard(copy);
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid move");
             }
         }
 
@@ -135,11 +147,11 @@ namespace Model.Reversi
 
             if (player == Player.BLACK)
             {
-                return "1";
+                return "B";
             }
             else if (player == Player.WHITE)
             {
-                return "2";
+                return "W";
             }
             else
             {
