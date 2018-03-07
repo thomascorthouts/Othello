@@ -12,25 +12,37 @@ namespace Model.Reversi
     [DebuggerDisplay(nameof(ReversiBoard) + "[{Width} x {Height}]")]
     public class ReversiBoard
     {
+        public const int MINIMUM_WIDTH = 2;
+        public const int MAXIMUM_WIDTH = 20;
+        public const int MINIMUM_HEIGHT = 2;
+        public const int MAXIMUM_HEIGHT = 20;
+
         private readonly IGrid<Var<Player>> _contents;
+
+        public static bool IsValidWidth(int width)
+        {
+            return MINIMUM_WIDTH <= width && width < MAXIMUM_WIDTH && IsEven(width);
+        }
+
+        public static bool IsValidHeight(int height)
+        {
+            return MINIMUM_HEIGHT <= height && height <= MAXIMUM_HEIGHT && IsEven(height);
+        }
+
+        private static bool IsEven(int n)
+        {
+            return n % 2 == 0;
+        }
 
         public static ReversiBoard CreateInitialState(int width, int height)
         {
-            if (width < 2)
+            if (!IsValidWidth(width))
             {
-                throw new ArgumentException($"Width (${width}) should be at least 2");
+                throw new ArgumentException($"Width (${width}) should be between ${MINIMUM_WIDTH} and ${MAXIMUM_WIDTH}, and even");
             }
-            else if (height < 2)
+            else if (!IsValidHeight(height))
             {
-                throw new ArgumentException($"Height (${height}) should be at least 2");
-            }
-            else if (width % 2 != 0)
-            {
-                throw new ArgumentException($"Width (${width}) should be an even number");
-            }
-            else if (height % 2 != 0)
-            {
-                throw new ArgumentException($"Height (${height}) should be an even number");
+                throw new ArgumentException($"Height (${height}) should be between ${MINIMUM_HEIGHT} and ${MAXIMUM_HEIGHT}, and even");
             }
             else
             {
@@ -91,7 +103,7 @@ namespace Model.Reversi
                 copy[position].Value = player;
                 var captured = CapturedBy(position, player).ToList();
 
-                foreach ( var p in captured)
+                foreach (var p in captured)
                 {
                     copy[p].Value = player;
                 }

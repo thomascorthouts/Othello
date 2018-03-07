@@ -89,7 +89,7 @@ namespace Cells
         public override string ToString()
         {
             return string.Format( "CELL[{0}]", Value );
-        }
+        }        
     }
 
     public static class Cell
