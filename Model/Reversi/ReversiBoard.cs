@@ -12,18 +12,28 @@ namespace Model.Reversi
     [DebuggerDisplay(nameof(ReversiBoard) + "[{Width} x {Height}]")]
     public class ReversiBoard
     {
-        public const int MINIMUM_WIDTH = 2;
-        public const int MAXIMUM_WIDTH = 20;
-        public const int MINIMUM_HEIGHT = 2;
-        public const int MAXIMUM_HEIGHT = 20;
+        private const int MINIMUM_WIDTH = 2;
+        private const int MAXIMUM_WIDTH = 20;
+        private const int MINIMUM_HEIGHT = 2;
+        private const int MAXIMUM_HEIGHT = 20;
 
         private readonly IGrid<Var<Player>> _contents;
 
+        /// <summary>
+        /// Checks whether the given width is valid.
+        /// </summary>
+        /// <param name="width">Width to be checked.</param>
+        /// <returns>True if the given width is valid, false otherwise.</returns>
         public static bool IsValidWidth(int width)
         {
             return MINIMUM_WIDTH <= width && width < MAXIMUM_WIDTH && IsEven(width);
         }
 
+        /// <summary>
+        /// Checks whether the given height is valid.
+        /// </summary>
+        /// <param name="height">Height to be validated.</param>
+        /// <returns>True if the given height is valid, false otherwise.</returns>
         public static bool IsValidHeight(int height)
         {
             return MINIMUM_HEIGHT <= height && height <= MAXIMUM_HEIGHT && IsEven(height);
@@ -34,6 +44,12 @@ namespace Model.Reversi
             return n % 2 == 0;
         }
 
+        /// <summary>
+        /// Creates a Reversi board in its initial state. The given width and height must be valid.
+        /// </summary>
+        /// <param name="width">Width of the board.</param>
+        /// <param name="height">Height of the board.</param>
+        /// <returns>A board object in the initial state.</returns>
         public static ReversiBoard CreateInitialState(int width, int height)
         {
             if (!IsValidWidth(width))
@@ -69,7 +85,7 @@ namespace Model.Reversi
             }
         }
 
-        public ReversiBoard(int width, int height, Func<Vector2D, Player> initializer)
+        internal ReversiBoard(int width, int height, Func<Vector2D, Player> initializer)
         {
             Debug.Assert(width > 0);
             Debug.Assert(height > 0);
@@ -83,15 +99,29 @@ namespace Model.Reversi
             this._contents = contents;
         }
 
+        /// <summary>
+        /// Width of the board.
+        /// </summary>
         public int Width => this._contents.Width;
 
+        /// <summary>
+        /// Height of the board.
+        /// </summary>
         public int Height => this._contents.Height;
 
+        /// <summary>
+        /// Stone at the given position, or <code>null</code> if unowned.
+        /// </summary>
+        /// <param name="position">Position on the board.</param>
+        /// <returns>A <code>Player</code> object representing the owner of the stone at the given position, or <code>null</code> if no stone is placed there.</returns>
         public Player this[Vector2D position] => this._contents[position].Value;
 
+        /// <summary>
+        /// List of all positions on the board.
+        /// </summary>
         public IEnumerable<Vector2D> Positions => this._contents.Positions();
 
-        public ReversiBoard AddStone(Vector2D position, Player player)
+        internal ReversiBoard AddStone(Vector2D position, Player player)
         {
             if (!IsValidMove(position, player))
             {
@@ -112,6 +142,13 @@ namespace Model.Reversi
             }
         }
 
+        /// <summary>
+        /// Computes a list of board positions that would be captured
+        /// if the given player would put a stone on the given position.
+        /// </summary>
+        /// <param name="position">Position.</param>
+        /// <param name="player">Player.</param>
+        /// <returns>A list of captured board positions.</returns>
         public IEnumerable<Vector2D> CapturedBy(Vector2D position, Player player)
         {
             if (IsValidMove(position, player))
@@ -173,6 +210,12 @@ namespace Model.Reversi
             }
         }
 
+        /// <summary>
+        /// Checks if the given board position is a valid move for the given player.
+        /// </summary>
+        /// <param name="position">Position.</param>
+        /// <param name="player">Player.</param>
+        /// <returns>True if the move is valid, false otherwise.</returns>
         public bool IsValidMove(Vector2D position, Player player)
         {
             Debug.Assert(position != null);
@@ -199,11 +242,16 @@ namespace Model.Reversi
             }
         }
 
-        public bool HasValidMoves(Player player)
+        internal bool HasValidMoves(Player player)
         {
             return this.Positions.Any(p => IsValidMove(p, player));
         }
 
+        /// <summary>
+        /// Counts the number of stones of the given player.
+        /// </summary>
+        /// <param name="player">Player whose stones to count.</param>
+        /// <returns>Number of stones owner by the given player.</returns>
         public int CountStones(Player player)
         {
             return this.Positions.Count(p => this[p] == player);
