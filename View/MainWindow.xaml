@@ -6,7 +6,30 @@
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <local:PlayerToBrushConverter x:Key="playerToBrush" />
+    </Window.Resources>
+    <ItemsControl ItemsSource="{Binding Rows}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <VirtualizingStackPanel Orientation="Vertical">
+                    <ItemsControl ItemsSource="{Binding Squares}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <!-- Arrange row items horizontally. -->
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Width="50" Height="50" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding SelectSquare}">
+                                    <Ellipse Width="40" Height="40" Fill="{Binding Player.Value, Converter={StaticResource playerToBrush}}" />
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </VirtualizingStackPanel>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </Window>
