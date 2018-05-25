@@ -5,31 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Reversi" Height="500" Width="500">
     <Window.Resources>
         <local:PlayerToBrushConverter x:Key="playerToBrush" />
+        <local:ActivePlayerToBackgroundBrush x:Key="activeToBrush" />
     </Window.Resources>
-    <ItemsControl ItemsSource="{Binding Rows}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <VirtualizingStackPanel Orientation="Vertical">
-                    <ItemsControl ItemsSource="{Binding Squares}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <!-- Arrange row items horizontally. -->
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Width="50" Height="50" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding SelectSquare}">
-                                    <Ellipse Width="40" Height="40" Fill="{Binding Player.Value, Converter={StaticResource playerToBrush}}" />
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </VirtualizingStackPanel>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <Grid x:Name="Wrapper">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="10*" />
+            </Grid.ColumnDefinitions>
+            <Border Height="50" Width="100" Margin="5" Padding="5" BorderThickness="1"  BorderBrush="Black" Grid.Column="0" Background="{Binding FirstPlayersTurn.Value, Converter={StaticResource activeToBrush}}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding PlayerName1}"/>
+                    <TextBlock Text="{Binding scorePlayer1.Value}"/>
+                </StackPanel>
+            </Border>
+            <Border Height="50" Width="100" Margin="5" Padding="5" BorderThickness="1"   BorderBrush="Black" Grid.Column="1" Background="{Binding SecondPlayersTurn.Value, Converter={StaticResource activeToBrush}}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding PlayerName2}"/>
+                    <TextBlock Text="{Binding scorePlayer2.Value}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Viewbox Grid.Row="1" Margin="20">
+            <ItemsControl ItemsSource="{Binding Rows}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical">
+                            <ItemsControl ItemsSource="{Binding Squares}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Width="50" Height="50" BorderThickness="1" Command="{Binding SelectSquare}">
+                                            <Ellipse Width="40" Height="40" Fill="{Binding Player.Value, Converter={StaticResource playerToBrush}}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </VirtualizingStackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Viewbox>
+    </Grid>
 </Window>
