@@ -15,18 +15,13 @@ namespace View
     /// </summary>
     public partial class App : Application
     {
-        ReversiGame reversiGame;
-        public App()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            int size = 6;
-            reversiGame = new ReversiGame(size, size);
-
+            base.OnStartup(e);
             MainWindow main = new MainWindow();
-            BoardViewModel boardViewModel = new BoardViewModel(reversiGame);
-            main.DataContext = boardViewModel;
+            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+            main.DataContext = mainWindowViewModel;
             main.Show();
         }
-
-
     }
 }
