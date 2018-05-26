@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Cell;
+using Cells;
 using Model.Reversi;
 
 namespace ViewModel
@@ -16,7 +16,7 @@ namespace ViewModel
 
         public BoardViewModel(ReversiGame game, string playername1, string playername2)
         {
-            gameCell = Cell.Cell.Create<ReversiGame>(game);
+            gameCell = Cell.Create<ReversiGame>(game);
             reversiGame = game;
             rows = new List<BoardRowViewModel>();
             foreach (var i in Enumerable.Range(0, game.Board.Height))

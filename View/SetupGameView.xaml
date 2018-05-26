@@ -8,8 +8,14 @@
     <UserControl.Content>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Reversi" />
+            <Label Content="Player 1:" />
             <TextBox Text="{Binding Player1}"/>
+            <Label Content="Player 2:" />
             <TextBox Text="{Binding Player2}"/>
+            <Label Content="Width:" />
+            <ComboBox SelectedValue="{Binding Width}" ItemsSource="{Binding PossibleWidths}"/>
+            <Label Content="Height:" />
+            <ComboBox SelectedValue="{Binding Height}" ItemsSource="{Binding PossibleHeights}"/>
             <Button Content="Start Game" Height="20" Width="80" Command="{Binding StartGame}"/>
         </StackPanel>
     </UserControl.Content>

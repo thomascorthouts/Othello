@@ -14,15 +14,49 @@ namespace ViewModel
         public SetupGameViewModel(MainWindowViewModel mainWindowViewModel)
         {
             this.MainWindowViewModel = mainWindowViewModel;
+
+
+            this.Width = 8;
+            this.Height = 8;
+
             this.StartGame = new StartGameCommand(this);
         }
 
-        protected void startGame()
+        // Implementation interface 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Board Sizes
+        public static int[] PossibleWidths => new int[] {2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
+        private int _width { get; set; }
+        public int Width
         {
-            this.MainWindowViewModel.startGame(6, 6, Player1, Player2);
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                _width = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Width)));
+            }
         }
 
+        public static int[] PossibleHeights => new int[] { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
+        private int _height { get; set; }
+        public int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Height)));
+            }
+        }
 
+        // Players
         private string _player1 { get; set; }
         public string Player1
         {
@@ -37,7 +71,6 @@ namespace ViewModel
             }
         }
 
-
         private string _player2 { get; set; }
         public string Player2
         {
@@ -51,10 +84,9 @@ namespace ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Player2)));
             }
         }
+
+        // Start Game
         public ICommand StartGame { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private class StartGameCommand : ICommand
         {
 
@@ -77,5 +109,6 @@ namespace ViewModel
 
             public event EventHandler CanExecuteChanged;
         }
+        protected void startGame() => this.MainWindowViewModel.startGame(Width, Height, Player1, Player2);
     }
 }
