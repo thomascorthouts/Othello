@@ -30,7 +30,7 @@ namespace ViewModel
             }
             set
             {
-                
+                squares = value;
             }
         }
 

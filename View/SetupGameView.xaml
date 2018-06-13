@@ -7,15 +7,15 @@
              x:Class="View.SetupGameView">
     <UserControl.Content>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Reversi" />
-            <Label Content="Player 1:" />
-            <TextBox Text="{Binding Player1}"/>
-            <Label Content="Player 2:" />
-            <TextBox Text="{Binding Player2}"/>
-            <Label Content="Width:" />
-            <ComboBox SelectedValue="{Binding Width}" ItemsSource="{Binding PossibleWidths}"/>
-            <Label Content="Height:" />
-            <ComboBox SelectedValue="{Binding Height}" ItemsSource="{Binding PossibleHeights}"/>
+            <TextBlock TextAlignment="Center" FontSize="20" FontWeight="Bold" Text="Reversi" />
+            <Label Content="Player 1:" Target="{Binding ElementName=Player1Name}" />
+            <TextBox  Width="120" x:Name="Player1Name" Text="{Binding Player1}"/>
+            <Label Content="Player 2:" Target="{Binding ElementName=Player2Name}" />
+            <TextBox  Width="120" x:Name="Player2Name" Text="{Binding Player2}"/>
+            <Label Target="{Binding ElementName=widthComboBox}" Content="Width:" />
+            <ComboBox Width="60" x:Name="widthComboBox" SelectedValue="{Binding Width}" ItemsSource="{Binding PossibleWidths}"/>
+            <Label Content="Height:" Target="{Binding ElementName=heightComboBox}" />
+            <ComboBox  Width="60" SelectedValue="{Binding Height}" x:Name="heightComboBox" ItemsSource="{Binding PossibleHeights}"/>
             <Button Content="Start Game" Height="20" Width="80" Command="{Binding StartGame}"/>
         </StackPanel>
     </UserControl.Content>

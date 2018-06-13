@@ -43,6 +43,7 @@
     <Compile Include="BoardRowViewModel.cs" />
     <Compile Include="BoardSquareViewModel.cs" />
     <Compile Include="BoardViewModel.cs" />
+    <Compile Include="EndGameViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetupGameViewModel.cs" />

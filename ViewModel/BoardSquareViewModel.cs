@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -34,6 +35,7 @@ namespace ViewModel
             get; set;
         }
 
+
         public Cell<bool> isValidMove { get; set; }
         private class SelectSquareCommand : ICommand
         {
@@ -46,11 +48,13 @@ namespace ViewModel
 
             public bool CanExecute(object parameter)
             {
+                //return true;
                 return _viewmodel.gameCell.Value.IsValidMove(_viewmodel.position);
             }
 
             public void Execute(object parameter)
             {
+                SystemSounds.Asterisk.Play();
                 var newGame = _viewmodel.gameCell.Value.PutStone(_viewmodel.position);
                 _viewmodel.gameCell.Value = newGame;
             }

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="Reversi" Height="500" Width="500">
+        Title="Reversi" Height="500" Width="650"
+        local:WindowClosingBehavior.Closing="{Binding Closing}">
     <ContentControl Content="{Binding ActiveScreen}"/>
 </Window>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             x:Class="View.Stone" x:Name="stone">
+    <UserControl.Content>
+        <Ellipse Width="40" Height="40" Fill="{Binding OwnerBrush, ElementName=stone}" />
+    </UserControl.Content>
+</UserControl>

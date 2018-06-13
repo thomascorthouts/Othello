@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             x:Class="View.SkinsPanel" x:Name="skinsPanel">
+    <UserControl.Content>
+        <StackPanel Orientation="Vertical">
+            <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Skins</TextBlock>
+            <Label Content="Possible move color" Target="{Binding ElementName=boardColorComboBox}"/>
+            <ComboBox x:Name="boardColorComboBox" SelectedItem="BoardColor" SelectionChanged="ChooseSkin" >
+                <ComboBoxItem>Blue</ComboBoxItem>
+                <ComboBoxItem>Black</ComboBoxItem>
+                <ComboBoxItem>Transparant</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+    </UserControl.Content>
+</UserControl>

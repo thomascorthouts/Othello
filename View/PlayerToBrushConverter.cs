@@ -12,6 +12,8 @@ namespace View
 {
     class PlayerToBrushConverter : IValueConverter
     {
+        public Brush brushPlayer1 { get; set; }
+        public Brush brushPlayer2 { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -23,11 +25,11 @@ namespace View
             }
             else if (player == Player.BLACK)
             {
-                return Brushes.Red;
+                return (brushPlayer1==null) ? Brushes.Red : brushPlayer1;
             }
             else
             {
-                return Brushes.Green;
+                return (brushPlayer2 == null) ? Brushes.Green : brushPlayer2;
             }
         }
 

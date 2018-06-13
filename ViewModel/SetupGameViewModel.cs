@@ -13,20 +13,35 @@ namespace ViewModel
         private MainWindowViewModel MainWindowViewModel;
         public SetupGameViewModel(MainWindowViewModel mainWindowViewModel)
         {
-            this.MainWindowViewModel = mainWindowViewModel;
+            initScreen(mainWindowViewModel);
 
+            this.StartGame = new StartGameCommand(this);
+        }
+
+        public SetupGameViewModel(MainWindowViewModel mainWindowViewModel, string playerName1, string playerName2)
+        {
+            initScreen(mainWindowViewModel);
+
+            this.Player1 = playerName1;
+            this.Player2 = playerName2;
+
+            this.StartGame = new StartGameCommand(this);
+
+        }
+
+        private void initScreen(MainWindowViewModel mainWindowViewModel)
+        {
+            this.MainWindowViewModel = mainWindowViewModel;
 
             this.Width = 8;
             this.Height = 8;
-
-            this.StartGame = new StartGameCommand(this);
         }
 
         // Implementation interface 
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Board Sizes
-        public static int[] PossibleWidths => new int[] {2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
+        public static int[] PossibleWidths => new int[] {4, 6, 8, 10, 12, 14, 16, 18};
         private int _width { get; set; }
         public int Width
         {
@@ -41,7 +56,7 @@ namespace ViewModel
             }
         }
 
-        public static int[] PossibleHeights => new int[] { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
+        public static int[] PossibleHeights => new int[] { 4, 6, 8, 10, 12, 14, 16, 18 };
         private int _height { get; set; }
         public int Height
         {
@@ -102,6 +117,8 @@ namespace ViewModel
 
             public void Execute(object parameter)
             {
+                if (_viewmodel.Player1 == "") _viewmodel.Player1 = "Black";
+                if (_viewmodel.Player2 == "") _viewmodel.Player2 = "White";
                 _viewmodel.startGame();
             }
 
@@ -109,6 +126,6 @@ namespace ViewModel
 
             public event EventHandler CanExecuteChanged;
         }
-        protected void startGame() => this.MainWindowViewModel.startGame(Width, Height, Player1, Player2);
+        protected void startGame() => MainWindowViewModel.startGame(Width, Height, Player1, Player2);
     }
 }

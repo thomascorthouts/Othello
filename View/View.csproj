@@ -56,9 +56,50 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MusicPanel.xaml.cs">
+      <DependentUpon>MusicPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SkinsPanel.xaml.cs">
+      <DependentUpon>SkinsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stone.xaml.cs">
+      <DependentUpon>Stone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EndGameView.xaml.cs">
+      <DependentUpon>EndGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreCard.xaml.cs">
+      <DependentUpon>ScoreCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SetupGameView.xaml.cs">
       <DependentUpon>SetupGameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowClosingBehavior.cs" />
+    <Page Include="MusicPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SkinsPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Skins\black.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Skins\blue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Skins\shared.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Page>
+    <Page Include="Skins\transparant.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stone.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="BoardView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -78,6 +119,13 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="EndGameView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScoreCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SetupGameView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,6 +177,9 @@
       <Project>{4fe81928-1dd5-4ca5-b18a-048e0d78b426}</Project>
       <Name>ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Songs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

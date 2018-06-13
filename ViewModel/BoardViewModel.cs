@@ -10,12 +10,18 @@ using Model.Reversi;
 namespace ViewModel
 {
     public class BoardViewModel
-    { 
+    {
+        private MainWindowViewModel mainWindowViewModel;
         private List<BoardRowViewModel> rows;
         private ReversiGame reversiGame;
+        public Player Player1 => Player.BLACK;
+        public Player Player2 => Player.WHITE;
+        private string playerName1;
+        private string playerName2;
 
-        public BoardViewModel(ReversiGame game, string playername1, string playername2)
+        public BoardViewModel(MainWindowViewModel parentViewModel, ReversiGame game, string playername1, string playername2)
         {
+            mainWindowViewModel = parentViewModel;
             gameCell = Cell.Create<ReversiGame>(game);
             reversiGame = game;
             rows = new List<BoardRowViewModel>();
@@ -33,6 +39,13 @@ namespace ViewModel
             scorePlayer2 = gameCell.Derive(g => g.Board.CountStones(Player.WHITE));
             SecondPlayersTurn = gameCell.Derive(g => g.CurrentPlayer == Player.WHITE);
             PlayerName2 = playername2;
+
+            // Setup gameOver listener
+
+            _gameOver = gameCell.Derive(g => g.IsGameOver);
+            _gameOver.ValueChanged += () => GameOver();
+
+
         }
 
         public Cell<bool> FirstPlayersTurn { get; set; }
@@ -44,9 +57,42 @@ namespace ViewModel
 
         public Cell<int> scorePlayer2 { get; set; }
 
-        public string PlayerName1 { get; set; }
+        public string PlayerName1 {
+            get
+            {
+                return playerName1;
+            }
+            set
+            {
+                if (value == "" || value == null)
+                {
+                    value = "Player1";
+                }
+                playerName1 = value;
+            }
+        }
 
-        public string PlayerName2 { get; set; }
+        public string PlayerName2 {
+            get
+            {
+                return playerName2;
+            }
+            set
+            {
+                if (value == "" || value == null)
+                {
+                    value = "Player 2";
+                }
+                playerName2 = value;
+            }
+        }
+
+        private Cell<bool> _gameOver { get; set; }
+
+        private void GameOver()
+        {
+            mainWindowViewModel.endGame(PlayerName1, PlayerName2, scorePlayer1.Value, scorePlayer2.Value);
+        }
 
         public List<BoardRowViewModel> Rows
         {
@@ -54,7 +100,7 @@ namespace ViewModel
             {
                 return rows;
             }
-            set
+            private set
             {
             }
         }

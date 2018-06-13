@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:View.assets">
+    <Style x:Key="ScoreCard" TargetType="UserControl">
+        <Setter Property="Box.Height" Value="50"/>
+        <Setter Property="Box.Width" Value="100"/>
+        <Setter Property="Box.Margin" Value="5"/>
+        <Setter Property="Box.Padding" Value="5"/>
+        <Setter Property="Box.BorderBrush" Value="Black"/>
+        <Setter Property="Player.Name.Size" Value="18"/>
+        <Setter Property="Player.Name.DockPanel.Dock" Value="Left"/>
+        <Setter Property="Player.Ellipse.DockPanel.Dock" Value="Right"/>
+        <Setter Property="Player.Ellipse.Height" Value="10"/>
+        <Setter Property="Player.Ellipse.Width" Value="10"/>
+        <Setter Property="Player.Score.Size" Value="14"/>
+    </Style>
+    
+</ResourceDictionary>

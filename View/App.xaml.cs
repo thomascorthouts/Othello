@@ -20,8 +20,14 @@ namespace View
             base.OnStartup(e);
             MainWindow main = new MainWindow();
             MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+            mainWindowViewModel.ApplicationClose += MainViewModel_ApplicationExit;
             main.DataContext = mainWindowViewModel;
             main.Show();
+        }
+
+        private void MainViewModel_ApplicationExit()
+        {
+            Application.Current.Shutdown();
         }
     }
 }
