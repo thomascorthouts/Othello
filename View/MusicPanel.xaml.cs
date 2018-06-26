@@ -20,7 +20,6 @@ namespace View
             InitializeComponent();
             mediaPlayer.Volume = (double)volumeSlider.Value;
             OpenSong();
-            mediaPlayer.Play();
         }
 
         private void OpenSong()
